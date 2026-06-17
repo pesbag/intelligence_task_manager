@@ -66,7 +66,6 @@ intelligence-task-manager/
 ### How to run the project:
 - Enter to the terminal and run the next command:
 ```
-docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 \ 
-  -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0 
+docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0 
 ```
 - Then enter to main.py folder and run it
