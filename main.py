@@ -4,6 +4,6 @@ connection=ConnectionDB()
 connection.create_database()
 connection.create_tables()
 agent=AgentDB()
-data={"name":"moshe","specialty":"math","is_active":False,"completed_missions":2,"failed_missions":1,"agent_rank":"Senior"}
+data={"name":"shalom","specialty":"computers","is_active":True,"completed_missions":4,"failed_missions":2,"agent_rank":"Commander"}
 # agent.create(data)
-print(agent.get_all_agents())
+print(agent.get_agent_performance())

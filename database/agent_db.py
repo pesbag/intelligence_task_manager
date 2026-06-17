@@ -28,6 +28,8 @@ class AgentDB:
         cursor.execute(sql,values)
         conn.commit()
         changed=cursor.rowcount>0
+        cursor.close()
+        conn.close()
         return changed
 
     def get_all_agents(self):
@@ -62,9 +64,31 @@ class AgentDB:
         try:
             cursor.execute("SELECT COUNT(id) FROM agents WHERE is_active=True")
             total_active=cursor.fetchone()
-            if not total_active: #in case that trying to count the active but the table is empty
+            if not total_active: #in case that trying to count the active but the table is empty so we cannot reach to the first place in the tuple
                 return None
-            return total_active
+            return total_active[0]
         finally:
             cursor.close()
             conn.close()
+
+    def get_agent_performance(self):
+        conn = connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT SUM(completed_missions) FROM agents")
+        total_completed=int(cursor.fetchone()[0])
+        cursor.execute("SELECT SUM(failed_missions) FROM agents")
+        total_failed=int(cursor.fetchone()[0])
+        cursor.close()
+        conn.close()
+        return {
+            "total":total_completed+total_failed,
+            "failed":total_failed,
+            "completed":total_completed,
+            "success_rate": total_completed/(total_completed+total_failed)
+        }
+
+    def increment_completed(self,id:int):
+        pass
+    def increment_failed(self,id:int):
+        pass
+
