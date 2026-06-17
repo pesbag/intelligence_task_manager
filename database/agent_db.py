@@ -4,7 +4,7 @@ class AgentDB:
     def __init__(self):
         pass
 
-    def create(self,data:dict):
+    def create_agent(self,data:dict):
         conn=connection.get_connection()
         cursor=conn.cursor()
         sql="INSERT INTO agents (name,specialty,is_active,completed_missions,failed_missions,agent_rank) VALUES (%s,%s,%s,%s,%s,%s)"
@@ -18,7 +18,7 @@ class AgentDB:
         data["id"]=new_id
         return data
 
-    def update(self,data:dict,id:int):
+    def update_agent(self,data:dict,id:int):
         conn=connection.get_connection()
         cursor=conn.cursor()
         set_part=[f"{key}=%s" for key in data.keys()]
