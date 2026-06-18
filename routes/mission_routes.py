@@ -13,6 +13,7 @@ router=APIRouter()
 
 
 def calc_level(difficulty, importance):
+    logger.info("enter to calc_level function")
     result = difficulty * 2 + importance
     if result < 10:
         return "LOW"
@@ -42,29 +43,39 @@ class CreateMission(BaseModel):
 
 @router.post("/missions")
 def add_new_mission(data:CreateMission):
+    logger.info("enter to add_new_mission router")
     mission_dict=data.model_dump()
     mission_dict["risk_level"]=calc_level(mission_dict["difficulty"], mission_dict["importance"])
     try:
         result=mission.create_mission(mission_dict)
     except Exception:
+        logger.exception("Error the range values of difficult and importance should be between 1 to 10")
         raise HTTPException(status_code=400,detail="Error the range values of difficult and importance should be between 1 to 10")
+    logger.info("exit from add_new_mission router")
     return {"new agent created successfully:": result}
 
 @router.get("/missions")
 def get_missions():
+    logger.info("enter to get_missions router")
     return {"The missions in the table:":mission.get_all_missions()}
 
 @router.get("/missions/{id}")
 def get_specific_mission(id):
+    logger.info("enter to get_specific_mission router")
     try:
         valid_id = int(id)
     except ValueError:
+        logger.exception("Error: unprocessable data, id should be int")
         raise HTTPException(status_code=422, detail="Error: unprocessable data, id should be int")
     result = mission.get_mission_by_id(valid_id)
     if not result:
+        logger.exception(f"Error the mission number {valid_id} was not found")
         raise HTTPException(status_code=404, detail=f"Error the mission number {valid_id} was not found")
+    logger.info("exit from get_specific_mission router")
     return {"mission found": result}
+
 # @router.put("/missions/{id}/assign/{agent_id}")
+
 @router.put("/missions/{id}/start")
 def start_mission(id:int):
     is_exists = mission.get_mission_by_id(id)
