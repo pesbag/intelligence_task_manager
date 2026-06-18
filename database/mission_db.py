@@ -135,4 +135,5 @@ class MissionDB:
 if __name__=="__main__":
     mis=MissionDB()
     data={"title": "D","description":"its mission D","location":"KFJ","difficulty":3,"importance":3,"status":"COMPLETED","risk_level":"LOW","assigned_agent_id":3}
+    print(mis.get_all_missions())
     print(mis.get_top_agent())
