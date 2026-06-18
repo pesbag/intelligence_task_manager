@@ -1,3 +1,5 @@
+from logging import exception
+
 from fastapi import APIRouter,HTTPException
 from database.agent_db import AgentDB
 from pydantic import BaseModel
@@ -31,8 +33,18 @@ def add_new_agent(data_of_agent:CreateAgent):
 @router.get("/agents")
 def get_agents():
     return agent.get_all_agents()
-# @router.get("/agents/{id}")
+@router.get("/agents/{id}")
+def get_specific_agent(id):
+    try:
+        valid_id=int(id)
+    except ValueError:
+        raise HTTPException(status_code=422,detail="Error: unprosseceable data, id should be int")
+    result=agent.get_agent_by_id(valid_id)
+    if not result:
+        raise HTTPException(status_code=404,detail=f"Error the agent number {valid_id} was not found")
+    return {"agent found": result}
 # @router.put("/agents/{id}")
+
 # @router.put("/agents/{id}/deactivate")
 # @router.get("/agents/{id}/performance")
 
