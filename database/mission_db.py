@@ -1,5 +1,8 @@
 from database.db_connection import ConnectionDB
 connection=ConnectionDB()
+import logging
+logger=logging.getLogger(__name__)
+
 class MissionDB:
     def __init__(self):
         pass

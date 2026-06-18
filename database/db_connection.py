@@ -1,4 +1,7 @@
 import mysql.connector
+import logging
+logger=logging.getLogger(__name__)
+
 class ConnectionDB:
     def __init__(self):
         self.host="localhost"
