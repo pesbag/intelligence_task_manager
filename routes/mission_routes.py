@@ -79,17 +79,26 @@ def mission_assign(id:int,agent_id:int):
     logger.info("enter to mission_assign router")
     is_mission_exists=mission.get_mission_by_id(id)
     if not is_mission_exists:
+        logger.exception(f"Mission not found")
         raise HTTPException(status_code=404,detail="Mission not found")
     is_agent_exists=agent.get_agent_by_id(agent_id)
     if not is_agent_exists:
+        logger.exception(f"Agent not found")
         raise HTTPException(status_code=404,detail="Agent not found")
     if is_mission_exists["status"]=="NEW":
+        logger.exception(f"Mission not available")
         raise HTTPException(status_code=400,detail="Mission not available")
     if is_agent_exists["is_active"]==False:
+        logger.exception(f"Agent is not active")
         raise HTTPException(status_code=400,detail="Agent is not active")
-    # if mission.count_open_missions()
+    if mission.get_open_missions_by_agent(agent_id)>3:
+        logger.exception(f"Agent has reached maximum missions")
+        raise HTTPException(status_code=400,detail="Agent has reached maximum missions")
     if is_mission_exists["risk_level"]=="CRITICAL" and is_agent_exists["agent_rank"]!="Commander":
+        logger.exception(f"Only Commander can handle critical missions")
         raise HTTPException(status_code=400,detail="Only Commander can handle critical missions")
+    result=mission.assign_mission(id,agent_id)
+    return {"mission assign": result}
 
 @router.put("/missions/{id}/start")
 def start_mission(id:int):

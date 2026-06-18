@@ -23,7 +23,7 @@ path_to_file="logs/app.log"
 logging.basicConfig(
     filename=path_to_file,
     level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    format='%(asctime)s | %(levelname)s | %(message)s'
 )
 
 # data={"name":"shalom","specialty":"computers","is_active":True,"completed_missions":4,"failed_missions":2,"agent_rank":"Commander"}

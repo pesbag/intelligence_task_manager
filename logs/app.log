@@ -1,26 +1,8 @@
-2026-06-18 15:02:12,898 - INFO - enter to get_agents router
-2026-06-18 15:22:26,265 - INFO - enter to get_agents router
-2026-06-18 15:26:58,472 - INFO - enter to get_missions router
-2026-06-18 15:35:33,152 - INFO - enter to get_agents router
-2026-06-18 15:36:02,357 - INFO - enter to get_specific_agent router
-2026-06-18 15:36:02,376 - INFO - exit from get_specific_agent router
-2026-06-18 16:05:43,121 - INFO - enter to get_agents router
-2026-06-18 16:06:34,068 - INFO - enter to update_agent router
-2026-06-18 16:07:29,535 - INFO - enter to update_agent router
-2026-06-18 16:07:29,566 - INFO - exit from update_agent router
-2026-06-18 16:07:34,499 - INFO - enter to get_agents router
-2026-06-18 16:07:45,684 - INFO - enter to update_agent router
-2026-06-18 16:07:45,701 - ERROR - error agent was not found
-2026-06-18 16:11:59,252 - INFO - enter to update_agent router
-2026-06-18 16:12:12,202 - INFO - enter to update_agent router
-2026-06-18 16:12:12,203 - ERROR - Error: unvalid rank in add_new_agent router
-2026-06-18 16:12:54,383 - INFO - enter to summary router
-2026-06-18 16:12:54,453 - INFO - exit from summary router
-2026-06-18 16:14:58,741 - INFO - enter to summary router
-2026-06-18 16:14:58,808 - INFO - exit from summary router
-2026-06-18 16:16:40,614 - INFO - enter to summary router
-2026-06-18 16:16:40,676 - INFO - exit from summary router
-2026-06-18 16:16:50,934 - INFO - enter to get_missions_by_status router
-2026-06-18 16:16:50,934 - INFO - exit from get_missions_by_status router
-2026-06-18 16:18:10,951 - INFO - enter to get_missions_by_status router
-2026-06-18 16:18:10,951 - INFO - exit from get_missions_by_status router
+2026-06-18 16:38:23,647 | INFO | enter to get_agents router
+2026-06-18 16:38:25,482 | INFO | enter to get_agents router
+2026-06-18 16:38:33,663 | INFO | enter to get_performance router
+2026-06-18 16:38:33,682 | INFO | exit from get_performance router
+2026-06-18 16:38:45,322 | INFO | enter to summary router
+2026-06-18 16:38:45,384 | INFO | exit from summary router
+2026-06-18 16:38:46,517 | INFO | enter to summary router
+2026-06-18 16:38:46,584 | INFO | exit from summary router

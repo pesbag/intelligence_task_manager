@@ -41,9 +41,10 @@ def get_missions_by_status():
 @router.get("/reports/top-agent")
 def top_agent():
     logger.info("enter to top_agent router")
-    logger.info("exit from top_agent router")
     get_mission=mission.get_top_agent()
     result=agent.get_agent_by_id(get_mission["assigned_agent_id"])
     if not result:
+        logger.error("Error agent was not found")
         raise HTTPException(status_code=404,detail="Error agent was not found")
+    logger.info("exit from top_agent router")
     return {"The top agent is:": result}
