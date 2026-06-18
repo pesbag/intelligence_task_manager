@@ -15,6 +15,14 @@ logger=logging.getLogger(__name__)
 #     Senior='Senior'
 #     Commandr='Commander'
 
+class UpdateAgent(BaseModel):
+    name:str | None = None
+    specialty:str | None = None
+    is_active:bool | None = None
+    completed_missions:int | None=None
+    failed_missions:int | None=None
+    agent_rank:str| None = None
+
 class CreateAgent(BaseModel):
     name:str
     specialty:str
@@ -53,9 +61,28 @@ def get_specific_agent(id):
     logger.info("exit from get_specific_agent router")
     return {"agent found": result}
 
-# @router.put("/agents/{id}")
+@router.put("/agents/{id}")
+def update_agent(id:int,data:UpdateAgent):
+    logger.info("enter to update_agent router")
+    data_dict_to_update=data.model_dump(exclude_unset=True)
+    if "agent_rank" in data_dict_to_update.keys():
+        if data_dict_to_update["agent_rank"] not in ['Junior', 'Senior', 'Commander']:
+            logger.error("Error: unvalid rank in add_new_agent router")
+            raise HTTPException(status_code=400, detail="Error: unvalid rank")
+    result=agent.update_agent(data_dict_to_update,id)
+    if not result:
+        logger.error("error agent was not found")
+        raise HTTPException(status_code=404,detail="error agent was not found")
+    logger.info("exit from update_agent router")
+    return {"update agent":result}
 
-# @router.put("/agents/{id}/deactivate")
+@router.put("/agents/{id}/deactivate")
+def deactivate_agent(id:int):
+    result=agent.deactivate_agent(id)
+    if not result:
+        raise HTTPException(status_code=404,detail=f"Error the agent number {id} was not found")
+    return {f"deactivate agent number {id}":result}
+
 @router.get("/agents/{id}/performance")
 def get_performance(id):
     logger.info("enter to get_performance router")

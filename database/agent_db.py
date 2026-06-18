@@ -58,8 +58,10 @@ class AgentDB:
         cursor=conn.cursor()
         cursor.execute("UPDATE agents SET is_active=False WHERE id=%s",(id,))
         conn.commit()
+        changed = cursor.rowcount > 0
         cursor.close()
         conn.close()
+        return changed
 
     def count_active_agents(self):
         conn = connection.get_connection()

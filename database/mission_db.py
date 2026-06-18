@@ -78,7 +78,7 @@ class MissionDB:
     def get_top_agent(self):
         conn = connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT assigned_agent_id,count(status) FROM missions WHERE status='COMPLETED' GROUP BY assigned_agent_id")
+        cursor.execute("SELECT assigned_agent_id,count(status) AS total_status FROM missions WHERE status='COMPLETED' GROUP BY assigned_agent_id ORDER BY total_status DESC LIMIT 1")
         top_agent=cursor.fetchone()
         cursor.close()
         conn.close()
@@ -100,11 +100,11 @@ class MissionDB:
     def count_all_missions(self):
         conn = connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM missions")
-        all_agents = cursor.fetchall()
+        cursor.execute("SELECT COUNT(*) AS count FROM missions")
+        all_missions = cursor.fetchone()
         cursor.close()
         conn.close()
-        return all_agents
+        return all_missions["count"]
 
     def update_mission_status(self,id:int,status):
         conn = connection.get_connection()

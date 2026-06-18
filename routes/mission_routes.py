@@ -74,7 +74,22 @@ def get_specific_mission(id):
     logger.info("exit from get_specific_mission router")
     return {"mission found": result}
 
-# @router.put("/missions/{id}/assign/{agent_id}")
+@router.put("/missions/{id}/assign/{agent_id}")
+def mission_assign(id:int,agent_id:int):
+    logger.info("enter to mission_assign router")
+    is_mission_exists=mission.get_mission_by_id(id)
+    if not is_mission_exists:
+        raise HTTPException(status_code=404,detail="Mission not found")
+    is_agent_exists=agent.get_agent_by_id(agent_id)
+    if not is_agent_exists:
+        raise HTTPException(status_code=404,detail="Agent not found")
+    if is_mission_exists["status"]=="NEW":
+        raise HTTPException(status_code=400,detail="Mission not available")
+    if is_agent_exists["is_active"]==False:
+        raise HTTPException(status_code=400,detail="Agent is not active")
+    # if mission.count_open_missions()
+    if is_mission_exists["risk_level"]=="CRITICAL" and is_agent_exists["agent_rank"]!="Commander":
+        raise HTTPException(status_code=400,detail="Only Commander can handle critical missions")
 
 @router.put("/missions/{id}/start")
 def start_mission(id:int):
