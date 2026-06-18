@@ -20,7 +20,7 @@ class MissionDB:
         conn=connection.get_connection()
         cursor=conn.cursor()
         sql="INSERT INTO missions (title,description,location,difficulty,importance,status,risk_level,assigned_agent_id) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
-        values=(data["title"],data["description"],data["location"],data["difficulty"],data["importance"],data["status"],self.calc_level(data["difficulty"],data["importance"]),data["assigned_agent_id"])
+        values=(data["title"],data["description"],data["location"],data["difficulty"],data["importance"],data["status"],data["risk_level"],data["assigned_agent_id"])
         cursor.execute(sql,values)
         conn.commit()
         print("Values inserted successfully")

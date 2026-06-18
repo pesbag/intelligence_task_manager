@@ -38,7 +38,7 @@ def get_specific_agent(id):
     try:
         valid_id=int(id)
     except ValueError:
-        raise HTTPException(status_code=422,detail="Error: unprosseceable data, id should be int")
+        raise HTTPException(status_code=422,detail="Error: unprocessable data, id should be int")
     result=agent.get_agent_by_id(valid_id)
     if not result:
         raise HTTPException(status_code=404,detail=f"Error the agent number {valid_id} was not found")
@@ -46,8 +46,17 @@ def get_specific_agent(id):
 # @router.put("/agents/{id}")
 
 # @router.put("/agents/{id}/deactivate")
-# @router.get("/agents/{id}/performance")
-
+@router.get("/agents/{id}/performance")
+def get_performance(id):
+    try:
+        valid_id=int(id)
+    except ValueError:
+        raise HTTPException(status_code=422,detail="Error: unprocessable data, id should be int")
+    result=agent.get_agent_performance(valid_id)
+    if not result:
+        raise HTTPException(status_code=404,detail=f"Error the agent number {valid_id} was not found"
+                                                   f"or that the the tabel is empty so it impossible to calculate the percentage")
+    return {"agent found": result}
 
 
 

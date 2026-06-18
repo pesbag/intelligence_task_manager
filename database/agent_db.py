@@ -74,21 +74,22 @@ class AgentDB:
             cursor.close()
             conn.close()
 
-    def get_agent_performance(self,id):
+    def get_agent_performance(self,id:int):
         conn = connection.get_connection()
         cursor = conn.cursor()
         try:
             cursor.execute("SELECT SUM(completed_missions) FROM agents WHERE id=%s",(id,))
             total_completed=cursor.fetchone()
-            if not total_completed:
-                return total_completed
+            if not total_completed[0]:
+                return total_completed[0]
             cursor.execute("SELECT SUM(failed_missions) FROM agents WHERE id=%s",(id,))
             total_failed=cursor.fetchone()
-            if not total_failed:
-                return total_failed
+            if not total_failed[0]:
+                return total_failed[0]
             failed=int(total_failed[0])
             completed=int(total_completed[0])
-            if completed + failed:
+
+            if completed + failed==0:
                 return None # cannot divide by zero
             return {
                 "total": completed + failed,
@@ -116,3 +117,7 @@ class AgentDB:
         cursor.close()
         conn.close()
 
+if __name__=="__main__":
+    agent=AgentDB()
+    print(agent.get_all_agents())
+    print(agent.get_agent_performance(88))
