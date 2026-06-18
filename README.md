@@ -68,4 +68,30 @@ intelligence-task-manager/
 ```
 docker run -d --name intelligence-mysql -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=Intelligence_db -p 3306:3306 mysql:8.0 
 ```
-- Then enter to main.py folder and run it
+- Then enter to the terminal  and stand in the path of main folder called intelligence_task_manager
+- now run the next command in the terminal ``` uvicorn main:app --reload```
+- now enter to the link end add to him the prefix '/docs'
+### The EndPoint:
+- #### In agent
+- @router.post("/agents")
+- @router.get("/agents")
+- @router.get("/agents/{id}")
+- @router.put("/agents/{id}")
+- @router.put("/agents/{id}/deactivate")
+- @router.get("/agents/{id}/performance")
+
+- #### In mission:
+- @router.post("/missions")
+- @router.get("/missions")
+- @router.get("/missions/{id}")
+- @router.put("/missions/{id}/assign/{agent_id}")
+- @router.put("/missions/{id}/start")
+- @router.put("/missions/{id}/complete")
+- @router.put("/missions/{id}/complete")
+- @router.put("/missions/{id}/fail")
+- @router.put("/missions/{id}/cancel")
+- 
+- #### In report:
+- @router.get("/reports/summary")
+- @router.get("/reports/missions-by-status")
+- @router.get("/reports/top-agent")

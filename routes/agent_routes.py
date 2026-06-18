@@ -32,7 +32,7 @@ def add_new_agent(data_of_agent:CreateAgent):
 
 @router.get("/agents")
 def get_agents():
-    return agent.get_all_agents()
+    return {"The agents in the table:":agent.get_all_agents()}
 @router.get("/agents/{id}")
 def get_specific_agent(id):
     try:
