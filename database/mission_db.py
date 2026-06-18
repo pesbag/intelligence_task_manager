@@ -75,7 +75,7 @@ class MissionDB:
     def get_top_agent(self):
         conn = connection.get_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM missions ORDER BY completed_missions LIMIT 1")
+        cursor.execute("SELECT assigned_agent_id,count(status) FROM missions WHERE status='COMPLETED' GROUP BY assigned_agent_id")
         top_agent=cursor.fetchone()
         cursor.close()
         conn.close()
@@ -134,5 +134,5 @@ class MissionDB:
 
 if __name__=="__main__":
     mis=MissionDB()
-    data={"title": "C","description":"its mission C","location":"BLQ","difficulty":2,"importance":2,"status":"NEW","risk_level":"LOW","assigned_agent_id":2}
+    data={"title": "D","description":"its mission D","location":"KFJ","difficulty":3,"importance":3,"status":"COMPLETED","risk_level":"LOW","assigned_agent_id":3}
     print(mis.get_top_agent())

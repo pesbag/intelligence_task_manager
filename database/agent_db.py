@@ -74,21 +74,41 @@ class AgentDB:
     def get_agent_performance(self):
         conn = connection.get_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT SUM(completed_missions) FROM agents")
-        total_completed=int(cursor.fetchone()[0])
-        cursor.execute("SELECT SUM(failed_missions) FROM agents")
-        total_failed=int(cursor.fetchone()[0])
-        cursor.close()
-        conn.close()
-        return {
-            "total":total_completed+total_failed,
-            "failed":total_failed,
-            "completed":total_completed,
-            "success_rate": total_completed/(total_completed+total_failed)
-        }
+        try:
+            cursor.execute("SELECT SUM(completed_missions) FROM agents")
+            total_completed=cursor.fetchone()
+            if not total_completed:
+                return total_completed
+            cursor.execute("SELECT SUM(failed_missions) FROM agents")
+            total_failed=cursor.fetchone()
+            if not total_failed:
+                return total_failed
+            failed=int(total_failed[0])
+            completed=int(total_completed[0])
+            if completed + failed:
+                return None # cannot divide by zero
+            return {
+                "total": completed + failed,
+                "failed": failed,
+                "completed": completed,
+                "success_rate": (completed / (completed + failed)) * 100
+                }
+        finally:
+            cursor.close()
+            conn.close()
 
     def increment_completed(self,id:int):
-        pass
+        conn = connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE agents SET completed_missions=completed_missions+1 WHERE id=%s", (id,))
+        conn.commit()
+        cursor.close()
+        conn.close()
     def increment_failed(self,id:int):
-        pass
+        conn = connection.get_connection()
+        cursor = conn.cursor()
+        cursor.execute("UPDATE agents SET failed_missions=failed_missions+1 WHERE id=%s", (id,))
+        conn.commit()
+        cursor.close()
+        conn.close()
 
