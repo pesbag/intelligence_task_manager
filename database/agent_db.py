@@ -74,15 +74,15 @@ class AgentDB:
             cursor.close()
             conn.close()
 
-    def get_agent_performance(self):
+    def get_agent_performance(self,id):
         conn = connection.get_connection()
         cursor = conn.cursor()
         try:
-            cursor.execute("SELECT SUM(completed_missions) FROM agents")
+            cursor.execute("SELECT SUM(completed_missions) FROM agents WHERE id=%s",(id,))
             total_completed=cursor.fetchone()
             if not total_completed:
                 return total_completed
-            cursor.execute("SELECT SUM(failed_missions) FROM agents")
+            cursor.execute("SELECT SUM(failed_missions) FROM agents WHERE id=%s",(id,))
             total_failed=cursor.fetchone()
             if not total_failed:
                 return total_failed
@@ -107,6 +107,7 @@ class AgentDB:
         conn.commit()
         cursor.close()
         conn.close()
+
     def increment_failed(self,id:int):
         conn = connection.get_connection()
         cursor = conn.cursor()
