@@ -8,6 +8,7 @@ class AgentDB:
         pass
 
     def create_agent(self,data:dict):
+        logger.info("enter to create_agent in AgentDB")
         conn=connection.get_connection()
         cursor=conn.cursor()
         sql="INSERT INTO agents (name,specialty,is_active,completed_missions,failed_missions,agent_rank) VALUES (%s,%s,%s,%s,%s,%s)"
@@ -22,6 +23,7 @@ class AgentDB:
         return data
 
     def update_agent(self,data:dict,id:int):
+        logger.info("enter to update_agent in AgentDB")
         conn=connection.get_connection()
         cursor=conn.cursor()
         set_part=[f"{key}=%s" for key in data.keys()]
@@ -36,6 +38,7 @@ class AgentDB:
         return changed
 
     def get_all_agents(self):
+        logger.info("enter to get_all_agents in AgentDB")
         conn=connection.get_connection()
         cursor=conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM agents")
@@ -45,6 +48,7 @@ class AgentDB:
         return all_agents
 
     def get_agent_by_id(self,id:int):
+        logger.info("enter to get_agent_by_id in AgentDB")
         conn=connection.get_connection()
         cursor=conn.cursor(dictionary=True)
         cursor.execute("SELECT * FROM agents WHERE id =%s",(id,))
@@ -54,6 +58,7 @@ class AgentDB:
         return get_agent
 
     def deactivate_agent(self,id:int):
+        logger.info("enter to deactivate_agent in AgentDB")
         conn=connection.get_connection()
         cursor=conn.cursor()
         cursor.execute("UPDATE agents SET is_active=False WHERE id=%s",(id,))
@@ -64,6 +69,7 @@ class AgentDB:
         return changed
 
     def count_active_agents(self):
+        logger.info("enter to count_active_agents in AgentDB")
         conn = connection.get_connection()
         cursor = conn.cursor()
         try:
@@ -77,6 +83,7 @@ class AgentDB:
             conn.close()
 
     def get_agent_performance(self,id:int):
+        logger.info("enter to get_agent_performance in AgentDB")
         conn = connection.get_connection()
         cursor = conn.cursor()
         try:
@@ -104,6 +111,7 @@ class AgentDB:
             conn.close()
 
     def increment_completed(self,id:int):
+        logger.info("enter to increment_completed in AgentDB")
         conn = connection.get_connection()
         cursor = conn.cursor()
         cursor.execute("UPDATE agents SET completed_missions=completed_missions+1 WHERE id=%s", (id,))
@@ -112,6 +120,7 @@ class AgentDB:
         conn.close()
 
     def increment_failed(self,id:int):
+        logger.info("enter to increment_failed in AgentDB")
         conn = connection.get_connection()
         cursor = conn.cursor()
         cursor.execute("UPDATE agents SET failed_missions=failed_missions+1 WHERE id=%s", (id,))

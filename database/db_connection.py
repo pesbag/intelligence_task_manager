@@ -10,6 +10,7 @@ class ConnectionDB:
         self.password="1234"
 
     def get_connection(self):
+        logger.info("enter to get_connection in ConnectionDB")
         conn= mysql.connector.connect(
             host=self.host,
             port=self.port,
@@ -22,6 +23,7 @@ class ConnectionDB:
         return conn
 
     def create_database(self):
+        logger.info("enter to create_database in ConnectionDB")
         conn=mysql.connector.connect(
             host=self.host,
             port=self.port,
@@ -36,6 +38,7 @@ class ConnectionDB:
         conn.close()
 
     def create_tables(self):
+        logger.info("enter to create_tables in ConnectionDB")
         conn=self.get_connection()
         cursor=conn.cursor()
         sql="""CREATE TABLE IF NOT EXISTS agents(
