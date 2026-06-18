@@ -78,43 +78,59 @@ def get_specific_mission(id):
 
 @router.put("/missions/{id}/start")
 def start_mission(id:int):
+    logger.info("enter to start_mission router")
     is_exists = mission.get_mission_by_id(id)
     if not is_exists:
+        logger.error(f"Error the mission number {id} was not found")
         raise HTTPException(status_code=404, detail=f"Error the mission number {id} was not found")
     if is_exists["status"] != "ASSIGNED":
+        logger.error("Error cannot cancel a non IN_PROGRESS mission")
         raise HTTPException(status_code=400, detail="Error cannot cancel a non IN_PROGRESS mission")
     result = mission.update_mission_status(id, "IN_PROGRESS")
+    logger.info("exit from start_mission router")
     return {f"mission status number {id} changed": result}
 
 
 @router.put("/missions/{id}/complete")
 def mission_complete(id:int):
+    logger.info("enter to mission_complete router")
     is_exists=mission.get_mission_by_id(id)
     if not is_exists:
+        logger.error(f"Error the mission number {id} was not found")
         raise HTTPException(status_code=404, detail=f"Error the mission number {id} was not found")
     if is_exists["status"]!="IN_PROGRESS" or is_exists["status"]=="COMPLETED":
+        logger.error("Error cannot complete a non IN_PROGRESS mission")
         raise HTTPException(status_code=400,detail="Error cannot complete a non IN_PROGRESS mission")
     result=mission.update_mission_status(id,"COMPLETED")
     agent.increment_completed(is_exists["assigned_agent_id"])
+    logger.info("exit from mission_complete router")
     return {f"mission status number {id} changed":result}
 
 @router.put("/missions/{id}/fail")
 def mission_failed(id:int):
+    logger.info("enter to mission_field router")
     is_exists=mission.get_mission_by_id(id)
     if not is_exists:
+        logger.error(f"Error the mission number {id} was not found")
         raise HTTPException(status_code=404, detail=f"Error the mission number {id} was not found")
     if is_exists["status"]!="IN_PROGRESS" or is_exists["status"]=="COMPLETED":
+        logger.error("Error cannot fail a non IN_PROGRESS mission")
         raise HTTPException(status_code=400,detail="Error cannot fail a non IN_PROGRESS mission")
     result=mission.update_mission_status(id,"FAILED")
     agent.increment_failed(is_exists["assigned_agent_id"])
+    logger.info("exit form mission_field router")
     return {f"mission status number {id} changed":result}
 
 @router.put("/missions/{id}/cancel")
 def cancel_mission(id:int):
+    logger.info("enter to cancel_mission router")
     is_exists = mission.get_mission_by_id(id)
     if not is_exists:
+        logger.error(f"Error the mission number {id} was not found")
         raise HTTPException(status_code=404, detail=f"Error the mission number {id} was not found")
     if is_exists["status"] != "NEW" and is_exists["status"] != "ASSIGNED":
+        logger.error("Error cannot cancel a non IN_PROGRESS mission")
         raise HTTPException(status_code=400, detail="Error cannot cancel a non IN_PROGRESS mission")
     result = mission.update_mission_status(id, "CANCELLED")
+    logger.info("exit from cancel_mission router")
     return {f"mission status number {id} changed": result}

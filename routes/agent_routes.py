@@ -23,7 +23,7 @@ class CreateAgent(BaseModel):
     failed_missions:int | None=0
     agent_rank:str
 
-@router.post("/agents")
+@router.post("/agents",status_code=201)
 def add_new_agent(data_of_agent:CreateAgent):
     logger.info("enter to add_new_agent router")
     data_dict=data_of_agent.model_dump()
